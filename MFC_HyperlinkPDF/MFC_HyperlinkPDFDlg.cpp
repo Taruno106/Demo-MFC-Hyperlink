@@ -206,7 +206,7 @@ bool ExportToPDF(const std::string& displayText, const std::string& linkText)
 
 	// Draw text
 	HPDF_Page_BeginText(page);
-	HPDF_Page_TextOut(page, x, y, displayText.c_str()); // show displayText
+	HPDF_Page_TextOut(page, x, y, displayText.c_str()); // Show displayText
 	HPDF_Page_EndText(page);
 
 	// Create clickable link annotation
