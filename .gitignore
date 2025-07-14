@@ -1,0 +1,37 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.VC.db
+*.VC.VC.opendb
+*.sdf
+*.opensdf
+
+# Build output
+Debug/
+Release/
+x64/
+x86/
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.idb
+*.ipch
+*.tlog
+*.log
+*.exp
+*.bsc
+*.ilk
+*.pch
+
+# OS and misc
+Thumbs.db
+.DS_Store
+desktop.ini
+*.dmp
+
+# Ignore only libharu *build* output (not source)
+libharu-2.4.5/Debug/
+libharu-2.4.5/Release/
