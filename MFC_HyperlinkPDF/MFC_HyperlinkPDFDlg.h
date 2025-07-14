@@ -15,7 +15,7 @@ public:
 
 // Dialog Data
 	CString m_strHyperlink;
-
+	CString m_strDisplayText;
 
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MFC_HYPERLINKPDF_DIALOG };

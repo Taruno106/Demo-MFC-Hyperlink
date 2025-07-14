@@ -60,7 +60,8 @@ CMFCHyperlinkPDFDlg::CMFCHyperlinkPDFDlg(CWnd* pParent /*=nullptr*/)
 void CMFCHyperlinkPDFDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDIT_LINK, m_strHyperlink);
+	DDX_Text(pDX, IDC_EDIT_LINK_ORIGINAL, m_strHyperlink);
+	DDX_Text(pDX, IDC_EDIT_LINK_DISPLAY, m_strDisplayText);
 }
 
 BEGIN_MESSAGE_MAP(CMFCHyperlinkPDFDlg, CDialogEx)
@@ -180,7 +181,7 @@ std::string ConvertCStringToUtf8(const CString& str)
 	return std::string(utf8Str.GetString());
 }
 
-bool ExportToPDF(const std::string& linkText)
+bool ExportToPDF(const std::string& displayText, const std::string& linkText)
 {
 	HPDF_Doc pdf = HPDF_New(ErrorHandler, NULL);
 	if (!pdf)
@@ -199,13 +200,13 @@ bool ExportToPDF(const std::string& linkText)
 
 	HPDF_Page_SetRGBFill(page, 0, 0, 1); // set text to blue color
 
-	// Now it's safe to get text width
-	float textWidth = HPDF_Page_TextWidth(page, linkText.c_str());
+	// get text width
+	float textWidth = HPDF_Page_TextWidth(page, displayText.c_str());
 	float height = fontSize + 2;
 
 	// Draw text
 	HPDF_Page_BeginText(page);
-	HPDF_Page_TextOut(page, x, y, linkText.c_str());
+	HPDF_Page_TextOut(page, x, y, displayText.c_str()); // show displayText
 	HPDF_Page_EndText(page);
 
 	// Create clickable link annotation
@@ -227,10 +228,11 @@ void CMFCHyperlinkPDFDlg::OnBnClickedBtnExport()
 		return;
 	}
 
-	std::string utf8Link = ConvertCStringToUtf8(m_strHyperlink);
+	std::string utf8OriginalLink = ConvertCStringToUtf8(m_strHyperlink);
+	std::string utf8DisplayLink = ConvertCStringToUtf8(m_strDisplayText);
 
 	try {
-		if (!ExportToPDF(utf8Link)) {
+		if (!ExportToPDF(utf8DisplayLink, utf8OriginalLink)) {
 			AfxMessageBox(_T("Failed to save PDF!"));
 			return;
 		}
